@@ -144,16 +144,7 @@ public class CPU {
 
     public static void exec(WorkerExecutionContext ctx) {
 
-        if(instructionHandler == null) {
-            //TODO: Add debugger enabled scenario to the if statement
-            if((ctx.programFile.getFlags() & ProgramFile.TEST_COVERAGE_FLAG) == ProgramFile.TEST_COVERAGE_FLAG) {
-                ServiceLoader<InstructionHandler> loader = ServiceLoader.load(InstructionHandler.class);
-                Iterator<InstructionHandler> iter = loader.iterator();
-                while(iter.hasNext()){
-                    instructionHandler = iter.next();
-                }
-            }
-        }
+        initInstructionHandler(ctx);
 
         while (ctx != null && !ctx.isRootContext()) {
             try {
@@ -193,9 +184,7 @@ public class CPU {
     
                 Instruction instruction = ctx.code[ctx.ip];
 
-                if(instructionHandler != null) {
-                    instructionHandler.handle(ctx, instruction);
-                }
+                handleInstruction(ctx);
 
                 int opcode = instruction.getOpcode();
                 int[] operands = instruction.getOperands();
@@ -3813,5 +3802,28 @@ public class CPU {
             TypePair other = (TypePair) obj;
             return this.sourceType.equals(other.sourceType) && this.targetType.equals(other.targetType);
         }
+    }
+
+    private static void initInstructionHandler(WorkerExecutionContext ctx) {
+
+        if(instructionHandler == null) {
+            //TODO: Add debugger enabled scenario to the if statement
+            if((ctx.programFile.getFlags() & ProgramFile.TEST_COVERAGE_FLAG) == ProgramFile.TEST_COVERAGE_FLAG) {
+                ServiceLoader<InstructionHandler> loader = ServiceLoader.load(InstructionHandler.class);
+                Iterator<InstructionHandler> iter = loader.iterator();
+                while(iter.hasNext()){
+                    instructionHandler = iter.next();
+                }
+            }
+        }
+
+    }
+
+    private static void handleInstruction(WorkerExecutionContext ctx) {
+
+        if(instructionHandler != null) {
+            instructionHandler.handle(ctx);
+        }
+
     }
 }

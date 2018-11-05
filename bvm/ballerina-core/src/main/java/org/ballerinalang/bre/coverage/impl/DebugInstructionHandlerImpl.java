@@ -19,10 +19,9 @@ package org.ballerinalang.bre.coverage.impl;
 
 import org.ballerinalang.bre.bvm.WorkerExecutionContext;
 import org.ballerinalang.bre.coverage.InstructionHandler;
-import org.ballerinalang.util.codegen.Instruction;
 
 public class DebugInstructionHandlerImpl implements InstructionHandler {
 
-    public void handle(WorkerExecutionContext ctx, Instruction instruction) {}
+    public void handle(WorkerExecutionContext ctx) {}
 
 }

@@ -23,7 +23,6 @@ import org.ballerinalang.testerina.core.entity.Test;
 import org.ballerinalang.testerina.core.entity.TestSuite;
 import org.ballerinalang.testerina.util.Constants;
 import org.ballerinalang.util.codegen.LineNumberInfo;
-import org.ballerinalang.util.codegen.PackageInfo;
 import org.ballerinalang.util.debugger.LineNumberInfoHolder;
 import org.ballerinalang.util.debugger.PackageLineNumberInfo;
 import org.wso2.ballerinalang.compiler.util.Names;
@@ -44,13 +43,19 @@ public class CoverageDataFormatter {
 
     private String testName = null;
 
+    private static final String COVERAGE_DATA_NAME = "coverage.data.name";
+
+    private static final String COVERAGE_DATA_PATH = "coverage.data.path";
+
     private static final String COVERAGE_REPORT_NAME = "coverage.report.name";
 
     private static final String COVERAGE_REPORT_PATH = "coverage.report.path";
 
-    private static final String COVERAGE_REPORT_FOLDER = "coverage";
+    private static final String COVERAGE_DATA_FOLDER = "coverage";
 
-    private static final String COVERAGE_REPORT_FILE = "coverage.info";
+    private static final String COVERAGE_REPORT_FOLDER = Paths.get(COVERAGE_DATA_FOLDER, "report").toString();
+
+    private static final String COVERAGE_DATA_FILE = "coverage.info";
 
     private static final String COVERAGE_REPORT_TARGET_PATH = "/target";
 
@@ -229,22 +234,22 @@ public class CoverageDataFormatter {
     public void writeFormattedCovDataToFile(List<LCovData> packageLCovDataList, String sourceRoot) throws IOException {
 
         ConfigRegistry configRegistry = ConfigRegistry.getInstance();
-        String customCovReportname = configRegistry.getAsString(COVERAGE_REPORT_NAME);
-        String customCovReportPath = configRegistry.getAsString(COVERAGE_REPORT_PATH);
+        String customCovReportname = configRegistry.getAsString(COVERAGE_DATA_NAME);
+        String customCovReportPath = configRegistry.getAsString(COVERAGE_DATA_PATH);
 
         String projectOutputPath = sourceRoot + COVERAGE_REPORT_TARGET_PATH;
         StringBuffer lcovOutputStrBuf = new StringBuffer();
 
         String covReportFilePath;
         if(customCovReportPath ==  null) {
-            covReportFilePath = Paths.get(projectOutputPath, COVERAGE_REPORT_FOLDER).toString();
+            covReportFilePath = Paths.get(projectOutputPath, COVERAGE_DATA_FOLDER).toString();
         } else {
-            covReportFilePath = Paths.get(customCovReportPath, COVERAGE_REPORT_FOLDER).toString();
+            covReportFilePath = Paths.get(customCovReportPath, COVERAGE_DATA_FOLDER).toString();
         }
 
         String covReportFileName;
         if(customCovReportname ==  null) {
-            covReportFileName = COVERAGE_REPORT_FILE;
+            covReportFileName = COVERAGE_DATA_FILE;
         } else {
             covReportFileName = customCovReportname;
         }

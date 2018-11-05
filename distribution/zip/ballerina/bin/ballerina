@@ -197,6 +197,7 @@ fi
 #   cd "$BALLERINA_HOME"
 
 $JAVACMD \
+    -javaagent:"$BALLERINA_HOME"/bre/lib/testerina-core-0.982.1-SNAPSHOT.jar \
 	-Xbootclasspath/a:"$BALLERINA_XBOOTCLASSPATH" \
 	-Xms256m -Xmx1024m \
 	-XX:+HeapDumpOnOutOfMemoryError \

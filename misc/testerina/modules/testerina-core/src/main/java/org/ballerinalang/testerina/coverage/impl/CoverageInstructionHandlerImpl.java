@@ -22,13 +22,9 @@ import org.ballerinalang.bre.bvm.WorkerExecutionContext;
 import org.ballerinalang.bre.coverage.InstructionHandler;
 import org.ballerinalang.bre.coverage.ExecutedInstruction;
 import org.ballerinalang.testerina.coverage.CoverageManager;
-import org.ballerinalang.util.codegen.Instruction;
 import org.ballerinalang.util.codegen.LineNumberInfo;
-import org.ballerinalang.util.codegen.ProgramFile;
-import org.ballerinalang.util.debugger.Debugger;
 import org.ballerinalang.util.debugger.LineNumberInfoHolder;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +42,7 @@ public class CoverageInstructionHandlerImpl implements InstructionHandler {
         this.lineNumberInfoHolderForProject = coverageManager.getLineNumberInfoHolderForProject();
     }
 
-    public void handle(WorkerExecutionContext ctx, Instruction instruction) {
+    public void handle(WorkerExecutionContext ctx) {
 
         String entryPkgPath = ctx.programFile.getEntryPackage().pkgPath;
         LineNumberInfoHolder lineNumberInfoHolderForPkg = lineNumberInfoHolderForProject.get(entryPkgPath);

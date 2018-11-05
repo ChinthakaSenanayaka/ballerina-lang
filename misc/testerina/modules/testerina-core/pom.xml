@@ -327,6 +327,13 @@
             <classifier>ballerina-binary-repo</classifier>
         </dependency>
         <!-- End Balo dependencies-->
+
+        <!-- Begin Java instrumentation dependencies-->
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+        </dependency>
+        <!-- End Java instrumentation dependencies-->
     </dependencies>
 
     <build>
@@ -347,6 +354,17 @@
 
         <plugins>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Premain-Class>org.ballerinalang.testerina.coverage.TestCodeInstrumentionAgent</Premain-Class>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
