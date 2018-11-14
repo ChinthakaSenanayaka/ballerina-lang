@@ -43,10 +43,12 @@ import java.util.Map;
 public class CoverageDataFormatterTest {
 
     private String sourceRoot = "src/test/resources/coverage/project";
-    private Path[] filePaths = { Paths.get("example_moduel1") };
+    private Path[] filePaths = { Paths.get("example_module1") };
 
     CoverageManager coverageManager = CoverageManager.getInstance();
     TesterinaRegistry registry = TesterinaRegistry.getInstance();
+
+    private boolean coverageFlag = false;
 
     @BeforeTest
     public void beforeTest() {
@@ -57,7 +59,7 @@ public class CoverageDataFormatterTest {
     @Test(description = "bal project and module coverage report happy path")
     public void getFormattedCoverageDataTest() {
         BTestRunner testRunner = new BTestRunner();
-        testRunner.setCoverageFlag(true);
+        testRunner.setCoverageFlag(coverageFlag);
         testRunner.runTest(sourceRoot, filePaths, new ArrayList<>());
         CoverageDataFormatter coverageDataFormatter = coverageManager.getCoverageDataFormatter();
         Map<String, List<ExecutedInstruction>> executedInstructionOrderMap =
@@ -66,7 +68,7 @@ public class CoverageDataFormatterTest {
         List<LCovData> lCovDataList = coverageDataFormatter
                 .getFormattedCoverageData(executedInstructionOrderMap, testSuiteForProject);
         Assert.assertEquals(lCovDataList.get(0).getlCovSourceFileList().get(0).getSourceFilePath(),
-                "project/example_moduel1:0.0.1/source.bal");
+                "project/example_module1:0.0.1/source.bal");
     }
 
     @AfterMethod
